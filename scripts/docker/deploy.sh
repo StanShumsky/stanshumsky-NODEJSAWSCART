@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #ENV=development
-ENV=develop
+ENV=stanshumsky-cart-api-dev
 
-REGION=eu-central-1
-AWS_ACCOUNT_ID=724443507988
-#PROFILE=default
-PROFILE=personalAccount
+REGION=eu-west-1
+AWS_ACCOUNT_ID=120618073624
+PROFILE=default
+#PROFILE=personalAccount
 
 AWS_DOCKER_REGISTRY_URL=$AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
 
