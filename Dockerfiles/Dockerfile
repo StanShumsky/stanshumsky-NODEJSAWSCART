@@ -1,19 +1,32 @@
-# Base
-FROM node:12
+FROM node:12-alpine As builder
 
-WORKDIR /app
+WORKDIR /usr/share/node
 
-# Dependencies
 COPY package*.json ./
+
 RUN npm install
 
-# Build
 COPY . .
+
 RUN npm run build
 
-# Application
-USER node
-ENV PORT=8080
-EXPOSE 8080
+FROM node:12.13-alpine as production
 
-CMD ["node", "dist/main.js"]
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/share/node
+
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=builder /usr/share/node/dist ./dist
+
+ARG PORT=8080
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+
+CMD ["node", "dist/main"]
